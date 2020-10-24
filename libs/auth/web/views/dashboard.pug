@@ -1,0 +1,105 @@
+extends layout
+
+block content
+    // preset form values if we receive a userdata object //
+    - user = typeof(usr) != 'undefined' ? usr : { }
+    - device = typeof(dvc) != 'undefined' ? dvc : { }
+    - len = device.length
+    // store the userId on the client side in a hidden input field //
+    input(type='hidden', value= user._id)#userId
+
+    nav.navbar.sticky-top.navbar-expand-lg.navbar-light.bg-light.shadow-sm
+        .container
+            a.navbar-brand(href='/dashboard') Dashboard
+            button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarNavAltMarkup')
+                span.navbar-toggler-icon
+            .collapse.navbar-collapse.justify-content-end#navbarNavAltMarkup
+                .navbar-nav
+                    if user.admin == 1
+                        button.btn.navbar-btn.btn-outline-danger#btn-logout Sign Out
+                        button.btn.navbar-btn.btn-outline-primary#btn-print Print
+                    else
+                        button.btn.navbar-btn.btn-outline-danger#btn-logout Sign Out
+                        button.btn.navbar-btn.btn-outline-success#btn-add-device Add Device
+                        button.btn.navbar-btn.btn-outline-primary#btn-device Devices
+
+    .jumbotron.jumbotron-fluid.bg-light
+        .container
+            h1.display-4.text-capitalize#welcome-user Welcome
+            p.lead This is your home page
+            hr
+
+    .container
+            br
+            form.card.card-body.bg-light.shadow(method='post')#account-form
+                h3
+                    a.text-decoration-none(style='color:black;', data-toggle='collapse', href="#collapseAccount", role='button') Your Information Account 
+                        span.justify-content-end.dropdown-toggle
+                h6 Here are the current settings for your account.
+                hr
+                .collapse.show#collapseAccount
+                    .form-group.row
+                        label.col-sm-3.col-form-label.col-form-label-sm Name
+                        .col-sm-9
+                            input.form-control#name-tf(type='text', name='name', value= user.name)
+
+                    .form-group.row
+                        label.col-sm-3.col-form-label.col-form-label-sm Email
+                        .col-sm-9
+                            input.form-control#email-tf(type='email', name='email', value= user.email)
+
+                    .form-group.row
+                        label.col-sm-3.col-form-label.col-form-label-sm Username
+                        .col-sm-9
+                            input.form-control(disabled='', type='text', name='user', value= user.username)
+
+                    .form-group.row
+                        label.col-sm-3.col-form-label.col-form-label-sm Password
+                        .col-sm-9
+                            input.form-control#pass-tf(type='password', name='pass', value='')
+
+                    .form-buttons
+                        button(type='button')#account-form-btn1.btn.btn-outline-dark
+                        button(type='submit')#account-form-btn2.btn.btn-primary
+                    br
+                    hr
+                    if user.admin == 0
+                        .form-group.row
+                            label.col-sm-3.col-form-label.col-form-label-sm Devices
+                            .col-sm-9
+                                input.form-control(disabled='', type='text', name='device', value= len)
+
+                        .form-group.row
+                            label.col-sm-3.col-form-label.col-form-label-sm Active Topics
+                            .col-sm-9
+                                each dvct in device
+                                    if dvct.topic != null
+                                        input.form-control(disabled='', value= dvct.topic)
+                                else
+                                    input.form-control(disabled='', value= 0)
+
+    if user.admin == 1
+        br
+    else
+        br
+        .container
+            br
+            form.card.card-body.bg-light.shadow
+                h3#page-header
+                    a.text-decoration-none#page-header(style='color:black;', data-toggle='collapse', href="#collapseDevice", role='button') List Your Devices 
+                        span.badge.badge-secondary.dropdown-toggle #{len}
+                hr
+                .collapse#collapseDevice
+                    .card-columns
+        br
+
+    include modals/alert
+    include modals/confirm
+    include modals/form-errors
+
+    include footer
+
+block scripts
+    script(src='/js/views/dashboard.js')
+    script(src='/js/controllers/dashboardController.js')
+    script(src='/js/form-validators/accountValidator.js')

@@ -1,0 +1,23 @@
+extends layout
+
+block content
+
+    nav.navbar.sticky-top.navbar-expand-lg.navbar-light.bg-light
+        .container
+            a.navbar-brand(href='/dashboard') Dashboard
+            button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarNavAltMarkup')
+                span.navbar-toggler-icon
+            .collapse.navbar-collapse.justify-content-end#navbarNavAltMarkup
+                .navbar-nav
+                    button.btn.navbar-btn.btn-outline-danger#btn-logout Sign Out
+                    button.btn.navbar-btn.btn-outline-success#btn-device Device
+                    button.btn.navbar-btn.btn-outline-primary#btn-dashboard Dashboard
+    
+    include register
+    include modals/alert
+    include modals/confirm
+
+block scripts
+    script(src='/js/views/register.js')
+    script(src='/js/controllers/registerController.js')
+    script(src='/js/form-validators/registerValidator.js')

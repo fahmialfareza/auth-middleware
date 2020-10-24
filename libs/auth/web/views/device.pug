@@ -1,0 +1,28 @@
+extends layout
+
+block content
+
+    nav.navbar.sticky-top.navbar-expand-lg.navbar-light.bg-light
+        .container
+            a.navbar-brand(href='/dashboard') Dashboard
+            button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarNavAltMarkup', aria-controls='navbarNav', aria-expanded='false', aria-label='Toggle navigation')
+                span.navbar-toggler-icon
+            .collapse.navbar-collapse.justify-content-end#navbarNavAltMarkup
+                .navbar-nav
+                    button.btn.navbar-btn.btn-outline-danger#btn-logout Sign Out
+                    button.btn.navbar-btn.btn-outline-success#btn-add-device Add Device
+                    button.btn.navbar-btn.btn-outline-primary#btn-dashboard Dashboard
+
+    .container
+        br
+        form.card.card-body.bg-light.shadow
+            h3#page-header List Your Devices 
+            hr
+            .card-columns
+    
+    include modals/alert
+    include modals/confirm
+
+block scripts
+    script(src='/js/views/device.js')
+    script(src='/js/controllers/deviceController.js')

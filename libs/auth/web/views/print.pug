@@ -1,0 +1,63 @@
+extends layout
+
+block content
+	nav.navbar.sticky-top.navbar-expand-lg.navbar-light.bg-light
+		.container
+			a.navbar-brand(href='/dashboard') Dashboard
+	
+	div.container(style='margin:20px auto')
+		form.card.card-body.bg-light.shadow
+			h3#page-header
+				a.text-decoration-none List Accounts
+			hr
+			table.table.table-bordered.table-striped
+				thead.thead-dark
+					tr
+						th(style='text-align:center') #
+						th Name
+						th Username
+						th Email
+						th Account Created
+						th Role
+				tbody
+				- for (var i = 0; i < accts.length; i++)
+					- accts.sort((a, b) => (a.username > b.username) ? 1 : -1)
+					if accts[i].admin == 1
+						- role = "admin"
+					else
+						- role = "user"
+					tr
+						td(style='text-align:center')= i+1
+						td= accts[i].name
+						td= accts[i].username
+						td= accts[i].email
+						td= accts[i].date
+						td
+							input.btn-sm.btn-primary(type='button' disabled value=role)
+		br
+		form.card.card-body.bg-light.shadow
+			h3#page-header
+				a.text-decoration-none List Devices
+			hr
+			table.table.table-bordered.table-striped
+				thead.thead-dark
+					tr
+						th(style='text-align:center') #
+						th User
+						th Device Name
+						th Role
+						th Topic
+						th Description
+						th Device Created
+				tbody
+				- for (var i = 0; i < dvc.length; i++)
+					- dvc.sort((a, b) => (a.user > b.user) ? 1 : -1)
+					- if (!dvc[i].topic) dvc[i].topic='Not available yet'
+					tr
+						td(style='text-align:center')= i+1
+						td= dvc[i].user
+						td= dvc[i].device_name
+						td= dvc[i].role
+						td= dvc[i].topic
+						td= dvc[i].description
+						td= dvc[i].date
